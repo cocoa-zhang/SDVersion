@@ -204,8 +204,13 @@
         return Screen6Dot1inch;
     } else if (screenHeight == 2688) {
         return Screen6Dot5inch;
-    } else
-    return UnknownSize;
+    } else  {
+        if(screenHeight == 1920) {
+            // iPhone 6s Plus 真机返回尺寸和模拟器不同
+            return Screen5Dot5inch;
+        }
+        return UnknownSize;
+    }
 }
 
 + (DeviceSize)deviceSize
