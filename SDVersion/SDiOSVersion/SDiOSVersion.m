@@ -48,7 +48,6 @@
                               @"iPhone10,5" : @(iPhone8Plus),
                               @"iPhone10,3" : @(iPhoneX),
                               @"iPhone10,6" : @(iPhoneX),
-                              @"iPhone11,8" : @(iPhoneXR),
                               @"iPhone11,2" : @(iPhoneXS),
                               @"iPhone11,4" : @(iPhoneXSMax),
                               @"iPhone11,6" : @(iPhoneXSMax),
@@ -56,6 +55,11 @@
                               @"iPhone12,1" : @(iPhone11),
                               @"iPhone12,3" : @(iPhone11Pro),
                               @"iPhone12,5" : @(iPhone11ProMax),
+                              @"iPhone12,8" : @(iPhoneSE2Gen),
+                              @"iPhone13,1" : @(iPhone12Mini),
+                              @"iPhone13,2" : @(iPhone12),
+                              @"iPhone13,3" : @(iPhone12Pro),
+                              @"iPhone13,4" : @(iPhone12ProMax),
                               @"i386"       : @(Simulator),
                               @"x86_64"     : @(Simulator),
 
@@ -132,7 +136,6 @@
     struct utsname systemInfo;
     uname(&systemInfo);
     NSString *code = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
-
     DeviceVersion version = (DeviceVersion)[[self.deviceNamesByCode objectForKey:code] integerValue];
 
     return version;
@@ -199,11 +202,17 @@
     } else if(screenHeight == 2208) {
         return Screen5Dot5inch;
     } else if (screenHeight == 2436) {
-        return Screen5Dot8inch;
+        if ([self deviceVersion] == iPhone12Mini) {
+            return Screen5Dot4inch;
+        } else {
+            return Screen5Dot8inch;
+        }
     } else if (screenHeight == 1792) {
         return Screen6Dot1inch;
     } else if (screenHeight == 2688) {
         return Screen6Dot5inch;
+    } else if (screenHeight == 2778) {
+        return Screen6Dot7inch;
     } else  {
         if(screenHeight == 1920) {
             // iPhone 6s Plus 真机返回尺寸和模拟器不同
@@ -233,10 +242,12 @@
              @(Screen3Dot5inch) : @"3.5 inch",
              @(Screen4inch)     : @"4 inch",
              @(Screen4Dot7inch) : @"4.7 inch",
+             @(Screen5Dot4inch) : @"5.4 inch",
              @(Screen5Dot5inch) : @"5.5 inch",
              @(Screen5Dot8inch) : @"5.8 inch",
              @(Screen6Dot1inch) : @"6.1 inch",
              @(Screen6Dot5inch) : @"6.5 inch",
+             @(Screen6Dot7inch) : @"6.7 inch",
              }[@(deviceSize)];
 }
 
@@ -269,7 +280,11 @@
              @(iPhone11)             : @"iPhone 11",
              @(iPhone11Pro)          : @"iPhone 11 Pro",
              @(iPhone11ProMax)       : @"iPhone 11 Pro Max",
-
+             @(iPhone12)             : @"iPhone 12",
+             @(iPhone12Mini)         : @"iPhone 12 Mini",
+             @(iPhone12Pro)          : @"iPhone 12 Pro",
+             @(iPhone12ProMax)       : @"iPhone 12 Pro Max",
+             
              @(iPad1)                : @"iPad 1",
              @(iPad2)                : @"iPad 2",
              @(iPadMini)             : @"iPad Mini",
